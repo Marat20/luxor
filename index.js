@@ -28,19 +28,22 @@ bot.on("text", async (msg) => {
 
 bot.onText(/\/wallet/, async (msg) => {
   const chatId = msg.chat.id;
-  await bot.sendMessage(chatId, "Введите адрес кошелька");
+  await bot.sendMessage(chatId, "Введите адрес торговой пары токена");
   bot.once("message", async (msg) => {
     let wallet = msg.text;
-    if (wallet === "/wallet") return;
-    await bot.sendMessage(chatId, "Старт транзакций");
+    if (wallet.startsWith("/")) return;
+    await bot.sendMessage(
+      chatId,
+      "Старт транзакций (например 20.10.2023 17:00)"
+    );
     bot.once("message", async (msg) => {
-      if (msg.text === "/wallet") return;
+      if (msg.text.startsWith("/")) return;
 
       const startTransaction = getDateFromTimestamp(msg.text);
 
       await bot.sendMessage(chatId, "Конец транзакций");
       bot.once("message", async (msg) => {
-        if (msg.text === "/wallet") return;
+        if (msg.text.startsWith("/")) return;
 
         const finishTransaction = getDateFromTimestamp(msg.text);
 
