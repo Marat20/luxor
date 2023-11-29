@@ -5,9 +5,5 @@ export const writeToExcel = (arr, workbook, worksheet) => {
 
   workbook.xlsx.writeFile("./myFile.xlsx");
 
-  worksheet.eachRow((row) => {
-    row.eachCell((cell) => {
-      cell.value = null;
-    });
-  });
+  workbook.removeWorksheet(worksheet.id);
 };

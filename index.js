@@ -8,10 +8,6 @@ import { TELEGRAM_BOT_API_KEY } from "./consts.js";
 
 const { Workbook } = exceljs;
 
-const workbook = new Workbook();
-
-const worksheet = workbook.addWorksheet("My Sheet");
-
 export const bot = new TelegramBot(TELEGRAM_BOT_API_KEY, {
   polling: true,
 });
@@ -44,6 +40,10 @@ bot.onText(/\/wallet/, async (msg) => {
       await bot.sendMessage(chatId, "Конец транзакций");
       bot.once("message", async (msg) => {
         if (msg.text.startsWith("/")) return;
+
+        const workbook = new Workbook();
+
+        const worksheet = workbook.addWorksheet("My Sheet");
 
         const finishTransaction = getDateFromTimestamp(msg.text);
 
